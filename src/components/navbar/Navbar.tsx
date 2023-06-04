@@ -5,7 +5,7 @@ import styles from './navbar.module.css';
 
 export const Navbar = () => {
   return (
-    <nav>
+    <nav className={styles.container}>
       <Link href="/" className={styles.logo}>
         Carmia
       </Link>
@@ -15,7 +15,9 @@ export const Navbar = () => {
             {link.title}
           </Link>
         ))}
-        <button onClick={() => console.log('loggout out ')}>Logout</button>
+        <button 
+        className={styles.logout}
+        onClick={() => console.log('loggout out ')}>Logout</button>
       </div>
     </nav>
   );
