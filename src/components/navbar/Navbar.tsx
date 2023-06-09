@@ -2,6 +2,7 @@
 import { links } from '@/utils';
 import Link from 'next/link';
 import styles from './navbar.module.css';
+import { DarkModeToggle } from '../darkModeToggle/DarkModeToggle';
 
 export const Navbar = () => {
   return (
@@ -10,6 +11,7 @@ export const Navbar = () => {
         Carmia
       </Link>
       <div className={styles.links}>
+        <DarkModeToggle />
         {links.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
             {link.title}
