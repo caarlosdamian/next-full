@@ -1,5 +1,5 @@
 'use client';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import styles from './Login.module.css';
 import Link from 'next/link';
 import { FormEvent, useState } from 'react';
@@ -8,6 +8,8 @@ import { useRouter } from 'next/navigation';
 const Login = () => {
   const [error, seterror] = useState(false);
   const router = useRouter();
+  const session = useSession();
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email = e.target[0].value;
@@ -15,6 +17,14 @@ const Login = () => {
 
     signIn('credentials',{email,password})
   };
+
+  if (session.status === 'loading') {
+    return <p>Loading....</p>;
+  }
+  if (session.status === 'authenticated') {
+    router?.push('/dashboard/');
+  }
+  if (session.status === 'unauthenticated') {
   return (
     <div className={styles.container}>
       <form action="" className={styles.form} onSubmit={handleSubmit}>
@@ -42,7 +52,7 @@ const Login = () => {
       <Link href="/dashboard/login">Login with an existing account</Link>
       <button onClick={() => signIn('google')}>Login with Google</button>
     </div>
-  );
+  )};
 };
 
 export default Login;

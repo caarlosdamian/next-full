@@ -1,6 +1,6 @@
 'use client';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import useSWR from 'swr';
 
 const Dashboard = () => {
@@ -27,8 +27,8 @@ const Dashboard = () => {
   //   getData();
   // }, []);
   // console.log('====testing---',data)
-const session = useSession()
-console.log('===session=',session)
+  const session = useSession();
+  const router = useRouter();
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
   const { data, error, isLoading } = useSWR(
@@ -36,11 +36,20 @@ console.log('===session=',session)
     fetcher
   );
 
+  if (session.status === 'loading') {
+    return <p>Loading....</p>;
+  }
+  if (session.status === 'unauthenticated') {
+    router?.push('/dashboard/login');
+  }
+
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
   // render data
-  return <div>{JSON.stringify(data)}</div>;
+  if (session.status === 'authenticated') {
+    return <div>{JSON.stringify(data)}</div>;
+  }
 };
 
 export default Dashboard;
