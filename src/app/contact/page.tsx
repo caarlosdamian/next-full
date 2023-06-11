@@ -2,6 +2,12 @@ import Image from 'next/image';
 import styles from './Contact.module.css';
 import { Button } from '@/components';
 
+export const metadata = {
+  title: 'Contact',
+  description: 'This is contact Page',
+};
+
+
 const Contact = () => {
   return (
     <div className={styles.container}>

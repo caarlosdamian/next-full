@@ -6,7 +6,7 @@ import Image from 'next/image';
 // fetch data server side force to cache static data fetching
 
 const getData = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
+  const res = await fetch('http://localhost:3000/api/posts', {
     cache: 'no-store',
   });
 
@@ -22,11 +22,11 @@ const Blog = async () => {
   return (
     <div className={styles.mainContainer}>
       {data.map((item) => (
-        <Link href={`/blog/${item.id}`} className={styles.container} key={item.id}>
+        <Link href={`/blog/${item._id}`} className={styles.container} key={item.id}>
           <div className={styles.imageContainer}>
             <Image
-              src="https://images.pexels.com/photos/2103127/pexels-photo-2103127.jpeg"
-              alt=""
+              src={item.img}
+              alt={item.title}
               width={400}
               height={250}
               className={styles.image}
